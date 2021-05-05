@@ -38,7 +38,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               SizedBox(height: 1.0),
               Text(
-                'انشئ حساب سائق',
+                'Create a driver account',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 18.0,
@@ -56,7 +56,7 @@ class SignUpScreen extends StatelessWidget {
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         alignLabelWithHint: true,
-                        hintText: 'الاسم الكامل',
+                        hintText: 'full name',
                         hintStyle: TextStyle(
                           fontSize: 17.0,
                           color: Colors.white60,
@@ -74,7 +74,7 @@ class SignUpScreen extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         alignLabelWithHint: true,
-                        hintText: 'البريد الالكتروني',
+                        hintText: 'E-mail',
                         hintStyle: TextStyle(
                           fontSize: 17.0,
                           color: Colors.white60,
@@ -91,7 +91,7 @@ class SignUpScreen extends StatelessWidget {
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         alignLabelWithHint: true,
-                        hintText: 'رقم الهاتف',
+                        hintText: 'Phone number',
                         hintStyle: TextStyle(
                           fontSize: 17.0,
                           color: Colors.white60,
@@ -109,7 +109,7 @@ class SignUpScreen extends StatelessWidget {
                       obscureText: true,
                       decoration: InputDecoration(
                         alignLabelWithHint: true,
-                        hintText: 'كلمة المرور',
+                        hintText: 'password',
                         hintStyle: TextStyle(
                           fontSize: 17.0,
                           color: Colors.white60,
@@ -126,7 +126,7 @@ class SignUpScreen extends StatelessWidget {
                       obscureText: true,
                       decoration: InputDecoration(
                         alignLabelWithHint: true,
-                        hintText: 'تأكيد كلمة المرور',
+                        hintText: 'confirm password',
                         hintStyle: TextStyle(
                           fontSize: 17.0,
                           color: Colors.white60,
@@ -138,6 +138,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 10.0),
+                    // ignore: deprecated_member_use
                     RaisedButton(
                       onPressed: () {
                         if (nameTextEdtingController.text.isEmpty ||
@@ -145,25 +146,25 @@ class SignUpScreen extends StatelessWidget {
                             passworedTextEdtingController.text.isEmpty ||
                             phoneNumTextEdtingController.text.isEmpty ||
                             repassworedTextEdtingController.text.isEmpty) {
-                          displayToastMsg('لقد تركت فراغ حاول مجددا ', context);
+                          displayToastMsg(
+                              'You left a blank, try again', context);
                         } else {
                           String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
                           RegExp regExp = new RegExp(pattern);
                           if (nameTextEdtingController.text.length < 4) {
-                            displayToastMsg('الاسم يجب ان يكون كاملا', context);
+                            displayToastMsg('Please enter full name', context);
                           } else if (!emailTextEdtingController.text
                               .contains("@")) {
                             displayToastMsg(
-                                'الرجاء ادخال بريدك الالكتروني بشكل صحيح',
-                                context);
+                                'Please enter your email correctly', context);
                           } else if (passworedTextEdtingController.text !=
                               repassworedTextEdtingController.text) {
                             displayToastMsg(
-                                'كلمة المرور خطأ حاول مجددا', context);
+                                'Password wrong, try again', context);
                           } else if (!regExp
                               .hasMatch(phoneNumTextEdtingController.text)) {
                             displayToastMsg(
-                                'ادخل رقم الهاتف بشكل صحيح', context);
+                                'Enter the correct phone number', context);
                           } else {
                             signUpNewUser(context);
                           }
@@ -175,7 +176,7 @@ class SignUpScreen extends StatelessWidget {
                         height: 50.0,
                         child: Center(
                           child: Text(
-                            "سجل الدخول كسائق",
+                            "Sign in as a driver",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 18.0,
@@ -192,7 +193,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               FlatButton(
                 child: Text(
-                  "لدي حساب",
+                  "I have an account",
                   style: TextStyle(color: Colors.white60),
                 ),
                 onPressed: () {
@@ -214,7 +215,7 @@ class SignUpScreen extends StatelessWidget {
         barrierDismissible: false,
         builder: (ctx) {
           return ProgressDialog(
-            massage: "الرجاء الانتظار",
+            massage: "please wait...",
           );
         });
     User user = (await _firebaseAuth
@@ -223,7 +224,7 @@ class SignUpScreen extends StatelessWidget {
                 password: passworedTextEdtingController.text)
             .catchError((errMsg) {
       Navigator.pop(context);
-      displayToastMsg('خطأ:' + errMsg, context);
+      displayToastMsg('Something went wrong:' + errMsg, context);
     }))
         .user;
     if (user != null) {
@@ -236,12 +237,13 @@ class SignUpScreen extends StatelessWidget {
       dirversRef.child(user.uid).set(userDataMap);
       currentfirebaseuser = user;
       Fluttertoast.showToast(
-          msg: "لقد تم انشاء حسابك", textColor: Colors.green);
+          msg: "Your account has been created", textColor: Colors.green);
 
       Navigator.pushNamed(context, CarInfoScreen.idScreen);
     } else {
       Navigator.pop(context);
-      displayToastMsg('يوجد خطأ ما لم يتم انشاء الحساب', context);
+      displayToastMsg(
+          'There was an error. The account was not created', context);
     }
   }
 

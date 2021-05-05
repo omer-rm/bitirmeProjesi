@@ -59,7 +59,7 @@ class _MainScreenState extends State<MainScreen>
               Icons.home,
             ),
             title: Text(
-              "الرئيسية",
+              "Home",
             ),
           ),
           BottomNavigationBarItem(
@@ -67,7 +67,7 @@ class _MainScreenState extends State<MainScreen>
               Icons.credit_card,
             ),
             title: Text(
-              "ارباحي",
+              "My profit",
             ),
           ),
           BottomNavigationBarItem(
@@ -75,7 +75,7 @@ class _MainScreenState extends State<MainScreen>
               Icons.star,
             ),
             title: Text(
-              "تقيماتي",
+              "My Rates",
             ),
           ),
           BottomNavigationBarItem(
@@ -83,7 +83,7 @@ class _MainScreenState extends State<MainScreen>
               Icons.person,
             ),
             title: Text(
-              "صفحتي",
+              "My profile",
             ),
           ),
         ],

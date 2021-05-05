@@ -24,7 +24,7 @@ class EarningsTabPage extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  'مجموع الارباح',
+                  'Total profits',
                   style: TextStyle(color: Colors.white, fontSize: 25.0),
                 ),
                 SizedBox(height: 10.0),
@@ -67,7 +67,7 @@ class EarningsTabPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 100),
                     child: Text(
-                      "سجل الرحلات",
+                      "Trip log",
                       style: TextStyle(fontSize: 20.0, color: Colors.black),
                     ),
                   ),

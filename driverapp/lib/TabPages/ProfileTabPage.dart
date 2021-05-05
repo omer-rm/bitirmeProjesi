@@ -64,7 +64,7 @@ class ProfileTabPage extends StatelessWidget {
                   context, LoginScreen.idScreen, (route) => false);
             },
             child: Text(
-              "      خروج      ",
+              "      Exit      ",
               style: TextStyle(fontSize: 30, color: Colors.white),
             ),
             shape: new RoundedRectangleBorder(

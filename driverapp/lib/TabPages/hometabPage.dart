@@ -28,7 +28,7 @@ class HomeTabPage extends StatefulWidget {
 class _HomeTabPageState extends State<HomeTabPage> {
   double bottumpaddingofMap = 0;
 
-  String driverStatusText = "خارج الخدمة";
+  String driverStatusText = "Out of service";
 
   Color driverStatusColor = Colors.black;
 
@@ -114,20 +114,20 @@ class _HomeTabPageState extends State<HomeTabPage> {
                     getLocationLiveUpdates();
                     setState(() {
                       // driverStatusColor = Colors.green;
-                      driverStatusText = "في الخدمة";
+                      driverStatusText = "in service";
                       isDraiverAvailable = true;
                     });
                     Fluttertoast.showToast(
-                        msg: "انت في الخدمة الان", textColor: Colors.green);
+                        msg: "You are in service now", textColor: Colors.green);
                   } else {
                     makeDriverOffline();
                     setState(() {
                       driverStatusColor = Colors.black;
-                      driverStatusText = " خارج الخدمة";
+                      driverStatusText = "Out of service";
                       isDraiverAvailable = false;
                     });
 
-                    displayToastMsg("انت خارج الخدمة الان ", context);
+                    displayToastMsg("You are out of service now", context);
                   }
                   setState(() {
                     changecolor = !changecolor;

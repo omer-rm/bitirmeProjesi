@@ -40,7 +40,7 @@ class CarInfoScreen extends StatelessWidget {
                   children: [
                     SizedBox(height: 12.0),
                     Text(
-                      "ادخل معلومات سيارتك",
+                      "Enter your car information",
                       style: TextStyle(
                           fontFamily: "Brand-blod",
                           fontSize: 24.0,
@@ -53,7 +53,7 @@ class CarInfoScreen extends StatelessWidget {
                       controller: carModelTextEditiongContriller,
                       decoration: InputDecoration(
                         alignLabelWithHint: true,
-                        hintText: 'موديل السيارة',
+                        hintText: 'Car model',
                         hintStyle: TextStyle(
                           fontSize: 17.0,
                           color: Colors.white60,
@@ -71,7 +71,7 @@ class CarInfoScreen extends StatelessWidget {
                       controller: carNumberTextEditiongContriller,
                       decoration: InputDecoration(
                         alignLabelWithHint: true,
-                        hintText: 'رقم السيارة',
+                        hintText: 'Plate number',
                         hintStyle: TextStyle(
                           fontSize: 17.0,
                           color: Colors.white60,
@@ -89,7 +89,7 @@ class CarInfoScreen extends StatelessWidget {
                       controller: carColorTextEditiongContriller,
                       decoration: InputDecoration(
                         alignLabelWithHint: true,
-                        hintText: 'لون السيارة',
+                        hintText: 'Car color',
                         hintStyle: TextStyle(
                           fontSize: 17.0,
                           color: Colors.white60,
@@ -107,7 +107,7 @@ class CarInfoScreen extends StatelessWidget {
                         DropdownButton(
                             iconSize: 35,
                             hint: Text(
-                              "اختر : دراجة نارية - تاكسي - سيارة شخصية",
+                              "Choose: Motorcycle - Taxi - Personal Car",
                               style: TextStyle(
                                   color: Colors.white60, fontSize: 16.0),
                             ),
@@ -133,12 +133,11 @@ class CarInfoScreen extends StatelessWidget {
                               carModelTextEditiongContriller.text.isEmpty ||
                               carNumberTextEditiongContriller.text.isEmpty) {
                             displayToastMsg(
-                                'لقد تركت فراغ الرجاء االمحاولة لاحقاً',
-                                context);
+                                'You left a blank, please try again', context);
                           } else {
                             if (selectedCarType == null) {
                               displayToastMsg(
-                                  "الرجاء اختيار نوع السيارة", context);
+                                  "Please select the vehicle type", context);
                               return;
                             } else {
                               saveDriverInfo(context);
@@ -150,7 +149,7 @@ class CarInfoScreen extends StatelessWidget {
                           padding: EdgeInsets.all(17.0),
                           child: Center(
                             child: Text(
-                              "التالي",
+                              "Next",
                               style: TextStyle(
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.bold,

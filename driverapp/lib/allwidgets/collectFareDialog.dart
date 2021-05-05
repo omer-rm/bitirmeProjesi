@@ -28,7 +28,7 @@ class CollectFareDialog extends StatelessWidget {
           children: [
             SizedBox(height: 22.0),
             Text(
-              "(" + rideType + ") :ارباح الرحله كاملة",
+              "(" + rideType + ") :The profits of the trip",
               style: TextStyle(color: Colors.white),
             ),
             SizedBox(height: 22.0),
@@ -42,7 +42,7 @@ class CollectFareDialog extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
-                "هذه كل الارباح التي تم جمعها من الرحلة , تم اعطائها للسائق",
+                "These are all the profits that were collected from the trips, given to the driver",
                 style: TextStyle(color: Colors.white),
                 textAlign: TextAlign.center,
               ),
@@ -65,7 +65,7 @@ class CollectFareDialog extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          "المبلغ الكامل",
+                          "The amount",
                           style: TextStyle(
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold,

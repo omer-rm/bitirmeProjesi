@@ -51,7 +51,7 @@ class _NewRideScreenState extends State<NewRideScreen> {
   String durationRide = "";
   bool isRequistingDirection = false;
 
-  String btnTitle = "وصل السائق";
+  String btnTitle = "The driver has arrived";
   Color btnColor = CostumColors.asfar_color;
 
   Timer timer;
@@ -96,7 +96,7 @@ class _NewRideScreenState extends State<NewRideScreen> {
         position: mPosition,
         icon: animatingMarkerIcon,
         rotation: rot,
-        infoWindow: InfoWindow(title: "موقعك الحالي "),
+        infoWindow: InfoWindow(title: "Your current location "),
       );
 
       setState(() {
@@ -250,7 +250,7 @@ class _NewRideScreenState extends State<NewRideScreen> {
                         child: RaisedButton(
                           onPressed: () async {
                             if (status == "accepted") {
-                              status = "وصل السائق";
+                              status = "The driver has arrived";
                               String rideRequistId =
                                   widget.rideDetails.ride_requist_id;
                               newRequistRef
@@ -258,20 +258,20 @@ class _NewRideScreenState extends State<NewRideScreen> {
                                   .child("status")
                                   .set(status);
                               setState(() {
-                                btnTitle = "ابدأ الرحلة";
+                                btnTitle = "Start";
                                 btnColor = Colors.green;
                               });
                               showDialog(
                                   context: context,
                                   builder: (context) => ProgressDialog(
-                                        massage: "... الرجاء الانتظار ",
+                                        massage: "Please wait...",
                                       ),
                                   barrierDismissible: false);
 
                               await getPlaceDirection(widget.rideDetails.pickUp,
                                   widget.rideDetails.dropOff);
                               Navigator.pop(context);
-                            } else if (status == "وصل السائق") {
+                            } else if (status == "The driver has arrived") {
                               status = "onride";
                               String rideRequistId =
                                   widget.rideDetails.ride_requist_id;
@@ -280,7 +280,7 @@ class _NewRideScreenState extends State<NewRideScreen> {
                                   .child("status")
                                   .set(status);
                               setState(() {
-                                btnTitle = "وصلت للهدف , انهاء الرحلة";
+                                btnTitle = "Destination arrived,Finish";
                                 btnColor = Colors.redAccent;
                               });
                               initTimer();
@@ -329,7 +329,7 @@ class _NewRideScreenState extends State<NewRideScreen> {
       LatLng pickUpLanLng, LatLng dropOffLanLng) async {
     showDialog(
       context: context,
-      builder: (context) => ProgressDialog(massage: ".. الرجاء الانتظار"),
+      builder: (context) => ProgressDialog(massage: "Please wait..."),
     );
 
     var details = await AsisstentMethods.obtainDirectionDetails(
@@ -498,7 +498,7 @@ class _NewRideScreenState extends State<NewRideScreen> {
       context: context,
       barrierDismissible: false,
       builder: (context) => ProgressDialog(
-        massage: "الرجاء الانتظار",
+        massage: "please wait",
       ),
     );
 

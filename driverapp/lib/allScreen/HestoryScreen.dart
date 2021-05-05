@@ -15,7 +15,7 @@ class _HestoryScreenState extends State<HestoryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "الرجوع",
+          "Back",
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: CostumColors.petroly_color,

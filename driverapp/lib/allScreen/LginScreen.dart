@@ -34,7 +34,7 @@ class LoginScreen extends StatelessWidget {
               ),
               SizedBox(height: 1.0),
               Text(
-                'حساب السائق',
+                'Driver price',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18.0,
@@ -53,7 +53,7 @@ class LoginScreen extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         alignLabelWithHint: true,
-                        hintText: 'البريد الالكتروني',
+                        hintText: 'Email',
                         hintStyle:
                             TextStyle(fontSize: 20.0, color: Colors.white60),
                       ),
@@ -69,7 +69,7 @@ class LoginScreen extends StatelessWidget {
                       obscureText: true,
                       decoration: InputDecoration(
                         alignLabelWithHint: true,
-                        hintText: 'كلمة المرور',
+                        hintText: 'Password',
                         hintStyle: TextStyle(
                           fontSize: 20.0,
                           color: Colors.white60,
@@ -85,12 +85,12 @@ class LoginScreen extends StatelessWidget {
                       onPressed: () {
                         if (emailTextEdtingController.text.isEmpty ||
                             passworedTextEdtingController.text.isEmpty) {
-                          displayToastMsg('لقد تركت فراغ حاول مجددا ', context);
+                          displayToastMsg(
+                              'You left a blank, please try again ', context);
                         } else {
                           if (!emailTextEdtingController.text.contains("@")) {
                             displayToastMsg(
-                                'الرجاء ادخال بريدك الالكتروني بشكل صحيح',
-                                context);
+                                'Please enter your Email correctly', context);
                           } else {
                             loginUser(context);
                           }
@@ -102,7 +102,7 @@ class LoginScreen extends StatelessWidget {
                         height: 50.0,
                         child: Center(
                           child: Text(
-                            "تسجيل الدخول",
+                            "Login",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 18.0,
@@ -120,7 +120,7 @@ class LoginScreen extends StatelessWidget {
               ),
               FlatButton(
                 child: Text(
-                  "لا يوجد لديك حساب ؟ سجل الان",
+                  "You do not have an account? Register now",
                   style: TextStyle(
                     color: Colors.white60,
                   ),
@@ -144,7 +144,7 @@ class LoginScreen extends StatelessWidget {
         barrierDismissible: false,
         builder: (ctx) {
           return ProgressDialog(
-            massage: "الرجاء الانتظار",
+            massage: "Please wait",
           );
         });
     final User user = (await _firebaseAuth
@@ -153,7 +153,7 @@ class LoginScreen extends StatelessWidget {
                 password: passworedTextEdtingController.text)
             .catchError((errMsg) {
       Navigator.pop(context);
-      displayToastMsg('خطأ:' + errMsg, context);
+      displayToastMsg('Something went wrong:' + errMsg, context);
     }))
         .user;
     if (user != null) {
@@ -165,12 +165,12 @@ class LoginScreen extends StatelessWidget {
         } else {
           Navigator.pop(context);
           _firebaseAuth.signOut();
-          displayToastMsg('لم يتم العثور على حسابك', context);
+          displayToastMsg('Your account was not found', context);
         }
       });
     } else {
       Navigator.pop(context);
-      displayToastMsg('لا يمكنك الدخول الان', context);
+      displayToastMsg('You cannot log in now', context);
     }
   }
 
