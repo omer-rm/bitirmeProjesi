@@ -6,7 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import './Models/allUsers.dart';
 import './Models/drivers.dart';
 
-String mapKey = "AIzaSyDPOeLUgf4-1tpD4KSVG6a51YFSTfCy1R4";
+String mapKey = "AIzaSyBN7zqyDG825qleWDyWJoSTOrgMU1mjk-g";
 
 User firebaseUsers;
 
@@ -24,7 +24,7 @@ Position currentPos;
 
 Drivers driversInformation;
 
-String title = "لا يوجد تقيمات ";
+String title = "there is no rates";
 
 double starCounter = 0.0;
 

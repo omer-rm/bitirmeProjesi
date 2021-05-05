@@ -17,7 +17,7 @@ class _RatingTabPageState extends State<RatingTabPage> {
           children: [
             SizedBox(height: 200.0),
             Text(
-              "تقيماتي ",
+              "My Rates",
               style: TextStyle(
                   fontSize: 40.0,
                   fontWeight: FontWeight.bold,
