@@ -81,6 +81,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 90.0),
+                    // ignore: deprecated_member_use
                     RaisedButton(
                       onPressed: () {
                         if (emailTextEdtingController.text.isEmpty ||
@@ -118,6 +119,7 @@ class LoginScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              // ignore: deprecated_member_use
               FlatButton(
                 child: Text(
                   "You do not have an account? Register now",

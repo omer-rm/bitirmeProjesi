@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -174,18 +175,18 @@ class _HomeTabPageState extends State<HomeTabPage> {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     currentPos = position;
-    // Geofire.initialize("availableDrivers");
-    // Geofire.setLocation(
-    //     currentfirebaseuser.uid, currentPos.latitude, currentPos.longitude);
+    Geofire.initialize("availableDrivers");
+    Geofire.setLocation(
+        currentfirebaseuser.uid, currentPos.latitude, currentPos.longitude);
 
-    // rideRequistRef.set("searching");
-    // rideRequistRef.onValue.listen((event) {
-    //   //
-    // });
+    rideRequistRef.set("searching");
+    rideRequistRef.onValue.listen((event) {
+      //
+    });
   }
 
   void makeDriverOffline() {
-    //  Geofire.removeLocation(currentfirebaseuser.uid);
+    Geofire.removeLocation(currentfirebaseuser.uid);
 
     if (rideRequistRef != null) {
       rideRequistRef.onDisconnect();
@@ -199,10 +200,10 @@ class _HomeTabPageState extends State<HomeTabPage> {
     hometapPageStreamSubscription =
         Geolocator.getPositionStream().listen((Position position) {
       currentPos = position;
-      // if (isDraiverAvailable == true) {
-      //   Geofire.setLocation(
-      //       currentfirebaseuser.uid, position.latitude, position.longitude);
-      // }
+      if (isDraiverAvailable == true) {
+        Geofire.setLocation(
+            currentfirebaseuser.uid, position.latitude, position.longitude);
+      }
       LatLng latLng = LatLng(position.latitude, position.longitude);
       newGooglemapController.animateCamera(CameraUpdate.newLatLng(latLng));
     });
@@ -223,7 +224,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
         driversInformation = Drivers.fromSnapShot(dataSnapshot);
       }
     });
-    // //PushNtificationService pushntificationService = PushNtificationService();
+    //PushNtificationService pushntificationService = PushNtificationService();
     // pushntificationService.initilaize(context);
     // pushntificationService.getToken();
     // setState(() {

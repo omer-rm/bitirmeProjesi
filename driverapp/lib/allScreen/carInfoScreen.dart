@@ -5,6 +5,7 @@ import '../allwidgets/CustomColors.dart';
 import '../configMaps.dart';
 import '../main.dart';
 
+// ignore: must_be_immutable
 class CarInfoScreen extends StatelessWidget {
   static const String idScreen = "carinfo";
 
@@ -127,6 +128,7 @@ class CarInfoScreen extends StatelessWidget {
                     SizedBox(height: 42.0),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      // ignore: deprecated_member_use
                       child: RaisedButton(
                         onPressed: () {
                           if (carColorTextEditiongContriller.text.isEmpty ||

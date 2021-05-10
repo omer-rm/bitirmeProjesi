@@ -52,44 +52,28 @@ class _MainScreenState extends State<MainScreen>
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: CostumColors.petroly_color,
+        backgroundColor: Colors.red,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-            ),
-            title: Text(
-              "Home",
-            ),
+            icon: Icon(Icons.home),
+            label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.credit_card,
-            ),
-            title: Text(
-              "My profit",
-            ),
+            icon: Icon(Icons.credit_card),
+            label: "My profit",
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.star,
-            ),
-            title: Text(
-              "My Rates",
-            ),
+            icon: Icon(Icons.star),
+            label: "My Rates",
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-            ),
-            title: Text(
-              "My profile",
-            ),
+            icon: Icon(Icons.person),
+            label: "My profile",
           ),
         ],
-        unselectedItemColor: Colors.white60,
+        unselectedItemColor: Colors.white,
         selectedItemColor: CostumColors.asfar_color,
-        type: BottomNavigationBarType.fixed,
+        type: BottomNavigationBarType.shifting,
         showUnselectedLabels: true,
         onTap: onItemClicked,
         currentIndex: selectIndex,

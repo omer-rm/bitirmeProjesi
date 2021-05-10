@@ -1,3 +1,4 @@
+import 'package:driverapp/allwidgets/CustomColors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.yellow,
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          canvasColor: CostumColors.petroly_color,
         ),
         initialRoute: FirebaseAuth.instance.currentUser == null
             ? LoginScreen.idScreen
