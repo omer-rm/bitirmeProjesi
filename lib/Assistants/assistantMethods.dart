@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import '../Assistants/requestAssistant.dart';
 import '../DataHandler/appData.dart';
 import '../Models/address.dart';
@@ -83,5 +85,11 @@ class AssistantMethods {
         usersCurrentInfo = Users.fromSnapshot(dataSnapshot);
       }
     });
+  }
+
+  static double creatRandomNumber(int number) {
+    var random = Random();
+    int randomNum = random.nextInt(number);
+    return randomNum.toDouble();
   }
 }

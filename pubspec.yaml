@@ -38,6 +38,7 @@ dependencies:
   #googgle map servesis:
   google_maps_flutter: ^2.0.2
   geolocator: ^7.0.1
+  flutter_geofire: ^2.0.0
   #HTTP
   http: ^0.13.1
   #provider
