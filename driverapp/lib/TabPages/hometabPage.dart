@@ -224,9 +224,9 @@ class _HomeTabPageState extends State<HomeTabPage> {
         driversInformation = Drivers.fromSnapShot(dataSnapshot);
       }
     });
-    //PushNtificationService pushntificationService = PushNtificationService();
-    // pushntificationService.initilaize(context);
-    // pushntificationService.getToken();
+    PushNtificationService pushntificationService = PushNtificationService();
+    pushntificationService.initilaize(context);
+    pushntificationService.getToken();
     // setState(() {
     //   if (Provider.of<AppData>(context, listen: false).tripHestoryDetailsList !=
     //       null) {
@@ -234,9 +234,9 @@ class _HomeTabPageState extends State<HomeTabPage> {
     //   }
     // });
 
-    AsisstentMethods.retrieveHistoryInfo(context);
-    getRatings();
-    getRideType();
+    // AsisstentMethods.retrieveHistoryInfo(context);
+    // getRatings();
+    //getRideType();
   }
 
   getRatings() {

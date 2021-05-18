@@ -1,7 +1,8 @@
 import 'package:sonbitirmeprojesi/Models/nearByAvailbleDrivers.dart';
 
 class GeoFireAssistent {
-  static List<NearByAvailableDraivers> nearbyAvailableDraiversList = [];
+  static List<NearByAvailableDraivers> nearbyAvailableDraiversList =
+      []; // [d1 , d2 , d3 ]
 
   static void removeDriverFromList(String key) {
     int index =

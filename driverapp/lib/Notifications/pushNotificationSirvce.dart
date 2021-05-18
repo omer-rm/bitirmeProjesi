@@ -10,18 +10,16 @@ import 'dart:io' show Platform;
 class PushNtificationService {
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   var newId;
+
   Future initilaize(context) async {
-    // firebaseMessaging.initializeApp(
-    //   onMessage: (Map<String, dynamic> message) async {
-    //     retrieveRideRequistInfo(getRideRequistId(message), context);
-    //   },
-    //   onLaunch: (Map<String, dynamic> message) async {
-    //     retrieveRideRequistInfo(getRideRequistId(message), context);
-    //   },
-    //   onResume: (Map<String, dynamic> message) async {
-    //     retrieveRideRequistInfo(getRideRequistId(message), context);
-    //   },
-    // );
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      retrieveRideRequistInfo(getRideRequistId(message.data), context);
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new onMessageOpenedApp event was published!');
+
+      retrieveRideRequistInfo(getRideRequistId(message.data), context);
+    });
   }
 
   Future<String> getToken() async {
@@ -37,7 +35,7 @@ class PushNtificationService {
   String getRideRequistId(Map<String, dynamic> message) {
     String rideRequistId;
     if (Platform.isAndroid) {
-      rideRequistId = message['data']['ride_requist_id'];
+      rideRequistId = message['ride_requist_id'];
     } else {
       rideRequistId = message['ride_requist_id'];
     }
