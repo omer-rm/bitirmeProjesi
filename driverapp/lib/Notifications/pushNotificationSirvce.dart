@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -46,8 +47,8 @@ class PushNtificationService {
     newRequistRef.child(reideRequestId).once().then((dataSnapshot) {
       print(reideRequestId);
       if (dataSnapshot.value != null) {
-        // assetsAudioplayer.open(Audio("sounds/alert.mp3"));
-        // assetsAudioplayer.play();
+        assetsAudioplayer.open(Audio("sounds/alert.mp3"));
+        assetsAudioplayer.play();
         double pickUpLatitude =
             double.parse(dataSnapshot.value['pickup']['latitude'].toString());
         double pickUpLongitude =

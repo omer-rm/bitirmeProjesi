@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_geofire/flutter_geofire.dart';
 // import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
@@ -56,16 +57,16 @@ class AsisstentMethods {
     }
   }
 
-  // static void desableHomeTabLiveLocationUpdate() {
-  //   hometapPageStreamSubscription.pause();
-  //   Geofire.removeLocation(currentfirebaseuser.uid);
-  // }
+  static void desableHomeTabLiveLocationUpdate() {
+    hometapPageStreamSubscription.pause();
+    Geofire.removeLocation(currentfirebaseuser.uid);
+  }
 
-  // static void enableHomeTabLiveLocationUpdate() {
-  //   hometapPageStreamSubscription.resume();
-  //   Geofire.setLocation(
-  //       currentfirebaseuser.uid, currentPos.latitude, currentPos.longitude);
-  // }
+  static void enableHomeTabLiveLocationUpdate() {
+    hometapPageStreamSubscription.resume();
+    Geofire.setLocation(
+        currentfirebaseuser.uid, currentPos.latitude, currentPos.longitude);
+  }
 
   static void retrieveHistoryInfo(BuildContext context) {
     //retrive the earnings hestory ..

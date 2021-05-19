@@ -94,7 +94,7 @@ class NotificationDialog extends StatelessWidget {
                     textColor: Colors.red,
                     padding: EdgeInsets.all(8.0),
                     onPressed: () {
-                      //assetsAudioplayer.stop();
+                      assetsAudioplayer.stop();
                       Navigator.pop(context);
                     },
                     child: Text(
@@ -114,7 +114,7 @@ class NotificationDialog extends StatelessWidget {
                     textColor: Colors.green,
                     padding: EdgeInsets.all(8.0),
                     onPressed: () {
-                      // assetsAudioplayer.stop();
+                      assetsAudioplayer.stop();
                       //   Navigator.pop(context);
                       checkAviliblityOfRide(context);
                     },
@@ -145,7 +145,7 @@ class NotificationDialog extends StatelessWidget {
       }
       if (theRideId == rideDetails.ride_requist_id) {
         rideRequistRef.set("accepted");
-        //  AsisstentMethods.desableHomeTabLiveLocationUpdate();
+        AsisstentMethods.desableHomeTabLiveLocationUpdate();
         Navigator.push(
             context,
             MaterialPageRoute(
