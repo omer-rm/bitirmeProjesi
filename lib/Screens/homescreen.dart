@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
+import 'package:sonbitirmeprojesi/AllWidgets/noDriverAvailableDialog.dart';
 import 'package:sonbitirmeprojesi/Assistants/geofireAssestent.dart';
 import 'package:sonbitirmeprojesi/Models/nearByAvailbleDrivers.dart';
+import 'package:sonbitirmeprojesi/main.dart';
 import '../AllWidgets/divider.dart';
 import '../AllWidgets/progressDialog.dart';
 import '../Assistants/assistantMethods.dart';
@@ -40,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   BitmapDescriptor nearByIcon;
-
+  String state = "normal";
   DatabaseReference rideRequistRef;
   String uName = "";
   void saveRideRequist() {
@@ -71,6 +73,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     };
     rideRequistRef.set(rideInfoMap);
   }
+
+  List<NearByAvailableDraivers> availableDrievrs;
 
   GlobalKey<ScaffoldState> scafuldKey = new GlobalKey<ScaffoldState>();
   List<LatLng> pLineCoerordinates = [];
@@ -521,8 +525,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           //   carRideType = "bike";
                           // });
                           displayRequistHeightContainer();
-                          // availableDrievrs =
-                          //     GeoFireAssistent.nearbyAvailableDraiversList;
+                          availableDrievrs =
+                              GeoFireAssistent.nearbyAvailableDraiversList;
                           // searchNearistDriver();
                         },
                         child: Container(
@@ -629,15 +633,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       GestureDetector(
                         onTap: () {
                           //on tapp
-                          // displayToastMsg("يتم البحث عن سيارة خاصة", context);
-                          // setState(() {
-                          //   carRideType = "private car";
-                          //   state = "requisting";
-                          // });
+                          // displayToastMsg("يتم البحث عن ديليفري جديد", context);
+                          setState(() {
+                            carRideType = "private car";
+                            state = "requisting";
+                          });
                           displayRequistHeightContainer();
-                          // availableDrievrs =
-                          //     GeoFireAssistent.nearbyAvailableDraiversList;
-                          // searchNearistDriver();
+                          availableDrievrs =
+                              GeoFireAssistent.nearbyAvailableDraiversList;
+                          searchNearistDriver();
                         },
                         child: Container(
                           width: double.infinity,
@@ -999,6 +1003,91 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         nearByIcon = value;
       });
     }
+  }
+
+  void noDriversFond() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => NoAvailableDriverDialog(),
+    );
+  }
+
+  void searchNearistDriver() {
+    if (availableDrievrs.length == 0) {
+      cancleRequist();
+      resetApp();
+      noDriversFond();
+      return;
+    }
+    var driver = availableDrievrs[0];
+    notifyDriver(driver);
+    availableDrievrs.removeAt(0);
+    // driversRef
+    //     .child(driver.key)
+    //     .child("car_details")
+    //     .child("type")
+    //     .once()
+    //     .then((snap) async {
+    //   if (await snap.value != null) {
+    //     String car_type = snap.value.toString();
+    //     if (car_type == carRideType) {
+    //       notifyDriver(driver);
+    //       availableDrievrs.removeAt(0);
+    //     } else {
+    //       displayToastMsg("لا يوجد سائق قريب حاول في ما بعد", context);
+    //     }
+    //   } else {
+    //     displayToastMsg("لا يوجد سائق قريب حاول في ما بعد", context);
+    //   }
+    // });
+  }
+
+  void notifyDriver(NearByAvailableDraivers driver) {
+    driversRef.child(driver.key).child('newRide').set(rideRequistRef.key);
+    driversRef
+        .child(driver.key)
+        .child('token')
+        .once()
+        .then((DataSnapshot snapshot) {
+      if (snapshot.value != null) {
+        String token = snapshot.value.toString();
+        AssistantMethods.sendNotificationToDriver(
+            token, context, rideRequistRef.key);
+      } else {
+        return;
+      }
+      const oneSecondPassed = Duration(seconds: 1);
+
+      var timer = Timer.periodic(oneSecondPassed, (timer) {
+        driverRequistTimeOnt = driverRequistTimeOnt - 1;
+
+        if (state != "requisting") {
+          driversRef.child(driver.key).child('newRide').set("cancelled");
+          driversRef.child(driver.key).child('newRide').onDisconnect();
+          driverRequistTimeOnt = 40;
+          timer.cancel();
+
+          searchNearistDriver();
+        }
+        driversRef.child(driver.key).child("newRide").onValue.listen((event) {
+          if (event.snapshot.value.toString() == "accepted") {
+            driversRef.child(driver.key).child('newRide').onDisconnect();
+            driverRequistTimeOnt = 40;
+            timer.cancel();
+          }
+        });
+
+        if (driverRequistTimeOnt == 0) {
+          driversRef.child(driver.key).child('newRide').set("timeout");
+          driversRef.child(driver.key).child('newRide').onDisconnect();
+          driverRequistTimeOnt = 40;
+          timer.cancel();
+
+          searchNearistDriver();
+        }
+      });
+    });
   }
 }
 

@@ -247,6 +247,7 @@ class _NewRideScreenState extends State<NewRideScreen> {
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.all(5.0),
+                        // ignore: deprecated_member_use
                         child: RaisedButton(
                           onPressed: () async {
                             if (status == "accepted") {
