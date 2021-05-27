@@ -15,7 +15,7 @@ import '../main.dart';
 class AsisstentMethods {
   static Future<DirectionDetails> obtainDirectionDetails(
       LatLng initialPosition, LatLng finalPosition) async {
-    String directionUrl =
+    var directionUrl =
         "https://maps.googleapis.com/maps/api/directions/json?origin=${initialPosition.latitude},${initialPosition.longitude}&destination=${finalPosition.latitude},${finalPosition.longitude}&key=$mapKey";
 
     var res = await RequestAssistant.getRequest(directionUrl);

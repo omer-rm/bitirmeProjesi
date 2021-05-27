@@ -122,9 +122,7 @@ class AssistantMethods {
       "to": token,
     };
 
-    var res = await http.post(
-        Uri.parse("'https://fcm.googleapis.com/fcm/send'"),
-        headers: headerMap,
-        body: jsonEncode(sendNotificationMap));
+    var res = await http.post(Uri.parse("https://fcm.googleapis.com/fcm/send"),
+        headers: headerMap, body: jsonEncode(sendNotificationMap));
   }
 }

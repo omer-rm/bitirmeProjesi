@@ -251,7 +251,7 @@ class _NewRideScreenState extends State<NewRideScreen> {
                         child: RaisedButton(
                           onPressed: () async {
                             if (status == "accepted") {
-                              status = "The driver has arrived";
+                              status = "arrived";
                               String rideRequistId =
                                   widget.rideDetails.ride_requist_id;
                               newRequistRef
@@ -272,7 +272,7 @@ class _NewRideScreenState extends State<NewRideScreen> {
                               await getPlaceDirection(widget.rideDetails.pickUp,
                                   widget.rideDetails.dropOff);
                               Navigator.pop(context);
-                            } else if (status == "The driver has arrived") {
+                            } else if (status == "arrived") {
                               status = "onride";
                               String rideRequistId =
                                   widget.rideDetails.ride_requist_id;
