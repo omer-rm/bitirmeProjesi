@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sonbitirmeprojesi/AllWidgets/noDriverAvailableDialog.dart';
 import 'package:sonbitirmeprojesi/Assistants/geofireAssestent.dart';
 import 'package:sonbitirmeprojesi/Models/nearByAvailbleDrivers.dart';
@@ -1021,26 +1022,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       return;
     }
     var driver = availableDrievrs[0];
-    notifyDriver(driver);
-    availableDrievrs.removeAt(0);
-    // driversRef
-    //     .child(driver.key)
-    //     .child("car_details")
-    //     .child("type")
-    //     .once()
-    //     .then((snap) async {
-    //   if (await snap.value != null) {
-    //     String car_type = snap.value.toString();
-    //     if (car_type == carRideType) {
-    //       notifyDriver(driver);
-    //       availableDrievrs.removeAt(0);
-    //     } else {
-    //       displayToastMsg("لا يوجد سائق قريب حاول في ما بعد", context);
-    //     }
-    //   } else {
-    //     displayToastMsg("لا يوجد سائق قريب حاول في ما بعد", context);
-    //   }
-    // });
+    // notifyDriver(driver);
+    // availableDrievrs.removeAt(0);
+    driversRef
+        .child(driver.key)
+        .child("car_details")
+        .child("type")
+        .once()
+        .then((snap) async {
+      if (await snap.value != null) {
+        String car_type = snap.value.toString();
+        if (car_type == carRideType) {
+          notifyDriver(driver);
+          availableDrievrs.removeAt(0);
+        } else {
+          displayToastMsg("there is no available driver now ! ", context);
+        }
+      } else {
+        displayToastMsg(
+            "there is no  availble driver nearby now please try again later ",
+            context);
+      }
+    });
   }
 
   void notifyDriver(NearByAvailableDraivers driver) {
@@ -1088,6 +1091,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         }
       });
     });
+  }
+
+  void displayToastMsg(String msg, BuildContext cxt) {
+    Fluttertoast.showToast(msg: msg, textColor: Colors.green);
   }
 }
 
