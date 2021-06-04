@@ -43,16 +43,21 @@ class AsisstentMethods {
 
   static int calculateFares(DirectionDetails directionDetails) {
     double distancTravledFare = (directionDetails.distanceValue / 1000) * 2.50;
-    if (rideType == "taxi") {
-      double result = distancTravledFare * 2.0;
-      return result.truncate();
-    }
-    if (rideType == "private car") {
+    if (rideType != "") {
+      if (rideType == "taxi") {
+        double result = distancTravledFare * 2.0;
+        return result.truncate();
+      }
+      if (rideType == "private car") {
+        double result = distancTravledFare;
+        return result.truncate();
+      }
+      if (rideType == "bike") {
+        double result = distancTravledFare / 2;
+        return result.truncate();
+      }
+    } else {
       double result = distancTravledFare;
-      return result.truncate();
-    }
-    if (rideType == "bike") {
-      double result = distancTravledFare / 2;
       return result.truncate();
     }
   }

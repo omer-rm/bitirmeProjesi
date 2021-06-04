@@ -2,10 +2,13 @@ import 'dart:async';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sonbitirmeprojesi/AllWidgets/CollectFareDialog.dart';
 import 'package:sonbitirmeprojesi/AllWidgets/noDriverAvailableDialog.dart';
 import 'package:sonbitirmeprojesi/Assistants/geofireAssestent.dart';
 import 'package:sonbitirmeprojesi/Models/nearByAvailbleDrivers.dart';
+import 'package:sonbitirmeprojesi/Screens/ratingScreen.dart';
 import 'package:sonbitirmeprojesi/main.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../AllWidgets/divider.dart';
 import '../AllWidgets/progressDialog.dart';
 import '../Assistants/assistantMethods.dart';
@@ -46,36 +49,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   String state = "normal";
   DatabaseReference rideRequistRef;
   String uName = "";
-  void saveRideRequist() {
-    rideRequistRef =
-        FirebaseDatabase.instance.reference().child("RideRequests").push();
-    var pickup = Provider.of<AppData>(context, listen: false).pickUpLocation;
-    var dropOff = Provider.of<AppData>(context, listen: false).dropOffLocation;
-
-    Map pickUpLocMap = {
-      "latitude": pickup.latitude.toString(),
-      "longitude": pickup.longitude.toString(),
-    };
-    Map dropOffLocMap = {
-      "latitude": dropOff.latitude.toString(),
-      "longitude": dropOff.longitude.toString(),
-    };
-    Map rideInfoMap = {
-      "driver_id": "waiting",
-      "payment_method": "cash",
-      "pickup": pickUpLocMap,
-      "dropoff": dropOffLocMap,
-      "created_at": DateTime.now().toString(),
-      "rider_name": usersCurrentInfo.name,
-      "rider_phone": usersCurrentInfo.phone,
-      "pickup_address": pickup.placeName,
-      "droppOff_address": dropOff.placeName,
-      "ride_type": carRideType,
-    };
-    rideRequistRef.set(rideInfoMap);
-  }
 
   List<NearByAvailableDraivers> availableDrievrs;
+
+  StreamSubscription<Event> rideStreamSubscription;
 
   GlobalKey<ScaffoldState> scafuldKey = new GlobalKey<ScaffoldState>();
   List<LatLng> pLineCoerordinates = [];
@@ -128,14 +105,31 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       circlesSet.clear();
       pLineCoerordinates.clear();
 
-      // statusRide = "";
-      // driverName = "";
-      // driverPhone = "";
-      // carDetailsDriver = "";
-      // rideStatus = "Driver is coming";
+      statusRide = "";
+      driverName = "";
+      driverPhone = "";
+      carDetailsDriver = "";
+      rideStatus = "on the way";
       driverDetailsContainerHeight = 0.0;
     });
-    // locatePosition();
+
+    locatePosition();
+  }
+
+  void locatePosition() async {
+    Position p = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    currentPosition = p;
+    LatLng latLngPosition = LatLng(p.latitude, p.longitude);
+    CameraPosition cameraPosition =
+        new CameraPosition(target: latLngPosition, zoom: 14);
+    newGooglemapController
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+    String address = await AssistantMethods.searchCoordinateAddress(p, context);
+    initGeoFireListener();
+
+    uName = usersCurrentInfo.name;
   }
 
   void cancleRequist() {
@@ -155,6 +149,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       bottumpaddingofMap = 360.0;
       drwoerOpen = false;
     });
+
     saveRideRequist();
   }
 
@@ -634,7 +629,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       GestureDetector(
                         onTap: () {
                           //on tapp
-                          // displayToastMsg("يتم البحث عن ديليفري جديد", context);
+                          displayToastMsg(
+                              "trying to fined a new Driver ! ", context);
                           setState(() {
                             carRideType = "private car";
                             state = "requisting";
@@ -785,6 +781,93 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       style: TextStyle(color: Colors.grey),
                     ),
                     SizedBox(height: 20.0),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          // ride details UI .
+          Positioned(
+            bottom: 0.0,
+            left: 0.0,
+            right: 0.0,
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16.0),
+                    topRight: Radius.circular(16.0),
+                  ),
+                  color: MyColors.petroly_color,
+                  boxShadow: [
+                    BoxShadow(
+                      spreadRadius: 0.5,
+                      blurRadius: 16.0,
+                      color: Colors.black54,
+                      offset: Offset(0.7, 0.7),
+                    )
+                  ]),
+              height: driverDetailsContainerHeight,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 24.0, vertical: 18.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 6.0),
+                    Text(
+                      rideStatus,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 20.0, color: Colors.white),
+                    ),
+                    SizedBox(height: 22.0),
+                    Divider(),
+                    Text(
+                      carDetailsDriver,
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    Text(
+                      driverName,
+                      style: TextStyle(fontSize: 20.0, color: Colors.white),
+                    ),
+                    SizedBox(height: 22.0),
+                    Divider(),
+                    SizedBox(height: 22.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20.0),
+                          // ignore: deprecated_member_use
+                          child: RaisedButton(
+                            onPressed: () {
+                              launch(("tel://$driverPhone"));
+                            },
+                            color: MyColors.asfar_color,
+                            child: Padding(
+                              padding: EdgeInsets.all(17.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    "CALL The Driver",
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.call,
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
@@ -1042,6 +1125,115 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         displayToastMsg(
             "there is no  availble driver nearby now please try again later ",
             context);
+      }
+    });
+  }
+
+  void saveRideRequist() {
+    rideRequistRef =
+        FirebaseDatabase.instance.reference().child("RideRequests").push();
+    var pickup = Provider.of<AppData>(context, listen: false).pickUpLocation;
+    var dropOff = Provider.of<AppData>(context, listen: false).dropOffLocation;
+
+    Map pickUpLocMap = {
+      "latitude": pickup.latitude.toString(),
+      "longitude": pickup.longitude.toString(),
+    };
+    Map dropOffLocMap = {
+      "latitude": dropOff.latitude.toString(),
+      "longitude": dropOff.longitude.toString(),
+    };
+    Map rideInfoMap = {
+      "driver_id": "waiting",
+      "payment_method": "cash",
+      "pickup": pickUpLocMap,
+      "dropoff": dropOffLocMap,
+      "created_at": DateTime.now().toString(),
+      "rider_name": usersCurrentInfo.name,
+      "rider_phone": usersCurrentInfo.phone,
+      "pickup_address": pickup.placeName,
+      "droppOff_address": dropOff.placeName,
+      "ride_type": carRideType,
+    };
+    rideRequistRef.set(rideInfoMap);
+
+    rideStreamSubscription = rideRequistRef.onValue.listen((event) async {
+      if (event.snapshot.value == null) {
+        return;
+      }
+
+      if (event.snapshot.value['car_details'] != null) {
+        setState(() {
+          carDetailsDriver = event.snapshot.value['car_details'].toString();
+        });
+      }
+      if (event.snapshot.value['driver_name'] != null) {
+        setState(() {
+          carDetailsDriver = event.snapshot.value['driver_name'].toString();
+        });
+      }
+      if (event.snapshot.value['driver_phone'] != null) {
+        setState(() {
+          driverPhone = event.snapshot.value['driver_phone'].toString();
+        });
+      }
+
+      if (event.snapshot.value['driver_location'] != null) {
+        //longitude
+        double driverLat = double.parse(
+            event.snapshot.value['driver_location']['latitude'].toString());
+
+        double driverLng = double.parse(
+            event.snapshot.value['driver_location']['longitude'].toString());
+
+        LatLng driverCurrentLocation = LatLng(driverLat, driverLng);
+
+        if (statusRide == "accepted") {
+          // updaterideTimePickUpLoc(driverCurrentLocation);
+        } else if (statusRide == "onride") {
+          // updaterideTimedropOffLoc(driverCurrentLocation);
+        } else if (statusRide == "arrived") {
+          setState(() {
+            rideStatus = "Driver has arraived ";
+          });
+        }
+      }
+      if (event.snapshot.value['status'] != null) {
+        statusRide = event.snapshot.value['status'].toString();
+      }
+      if (statusRide == "accepted") {
+        displayDriverDetailsContainer();
+        Geofire.stopListener();
+        //  removeGeoFileMarkers();
+      }
+      if (statusRide == "ended") {
+        if (event.snapshot.value["fares"] != null) {
+          int fare = int.parse(event.snapshot.value["fares"].toString());
+          var res = await showDialog(
+            context: context,
+            builder: (context) => CollectFareDialog(
+              paymentMethod: "cash",
+              fareAmount: fare,
+            ),
+          );
+          String driverId = "";
+          if (res == "close") {
+            if (event.snapshot.value["driver_id"] != null) {
+              driverId = event.snapshot.value["driver_id"].toString();
+            }
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RatingScrean(driverId: driverId),
+                ));
+
+            rideRequistRef.onDisconnect();
+            rideRequistRef = null;
+            rideStreamSubscription.cancel();
+            rideStreamSubscription = null;
+            resetApp();
+          }
+        }
       }
     });
   }

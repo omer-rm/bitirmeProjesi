@@ -546,6 +546,7 @@ class _NewRideScreenState extends State<NewRideScreen> {
             .set(totalEarnings.toStringAsFixed(2));
       } else {
         double totalEarnings = fareAmount.toDouble();
+
         dirversRef
             .child(currentfirebaseuser.uid)
             .child("earnings")
