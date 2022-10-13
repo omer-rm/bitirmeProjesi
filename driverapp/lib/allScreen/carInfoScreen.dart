@@ -30,7 +30,7 @@ class CarInfoScreen extends StatelessWidget {
               //
               SizedBox(height: 24.0),
               Image(
-                image: AssetImage('images/logos/quicklyIcon.png'),
+                image: AssetImage('images/logo1.png'),
                 height: 150.0,
                 width: 150.0,
                 alignment: Alignment.center,

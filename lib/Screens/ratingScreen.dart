@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:sonbitirmeprojesi/myColors/MyColors.dart';
 
-import '../configmaps.dart';
+import '../../../configmaps.dart';
 
 class RatingScrean extends StatefulWidget {
   final String driverId;

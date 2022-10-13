@@ -5,7 +5,6 @@ import '../Assistants/assistentMethods.dart';
 import '../Models/RideDetails.dart';
 import '../allScreen/newRideScreen.dart';
 import '../allwidgets/CustomColors.dart';
-import '../configMaps.dart';
 import '../main.dart';
 
 class NotificationDialog extends StatelessWidget {
@@ -94,7 +93,7 @@ class NotificationDialog extends StatelessWidget {
                     textColor: Colors.red,
                     padding: EdgeInsets.all(8.0),
                     onPressed: () {
-                      assetsAudioplayer.stop();
+                      // assetsAudioplayer.stop();
                       Navigator.pop(context);
                     },
                     child: Text(
@@ -114,7 +113,7 @@ class NotificationDialog extends StatelessWidget {
                     textColor: Colors.green,
                     padding: EdgeInsets.all(8.0),
                     onPressed: () {
-                      assetsAudioplayer.stop();
+                      // assetsAudioplayer.stop();
                       //   Navigator.pop(context);
                       checkAviliblityOfRide(context);
                     },

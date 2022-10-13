@@ -33,14 +33,14 @@ dependencies:
   firebase_core: ^1.0.2
   firebase_auth: ^1.0.1
   firebase_database: ^6.1.1
-  firebase_messaging: ^9.1.4
+  firebase_messaging: ^10.0.8
   # other pub .
   fluttertoast: ^7.1.6
-  assets_audio_player: ^3.0.3+3
+  # assets_audio_player: ^3.0.3+1
   #googgle map servesis:
   google_maps_flutter: ^2.0.2
   geolocator: ^7.0.1
-  maps_toolkit: ^1.1.0+2
+  maps_toolkit: ^2.0.0
   flutter_geofire: ^2.0.0
   #HTTP
   http: ^0.13.1

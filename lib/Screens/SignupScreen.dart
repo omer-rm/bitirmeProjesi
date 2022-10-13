@@ -60,7 +60,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     children: [
                       SizedBox(height: 1),
                       TextField(
-                        controller: nameTextEdtingController,
+                        // controller: nameTextEdtingController,
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
                           alignLabelWithHint: true,
@@ -79,7 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: 1),
                       TextField(
-                        controller: surnameTextEdtingController,
+                        // controller: surnameTextEdtingController,
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
                           alignLabelWithHint: true,
@@ -98,7 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: 1),
                       TextField(
-                        controller: phoneNumTextEdtingController,
+                        // controller: phoneNumTextEdtingController,
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           alignLabelWithHint: true,
@@ -117,7 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: 1),
                       TextField(
-                        controller: emailTextEdtingController,
+                        // controller: emailTextEdtingController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           alignLabelWithHint: true,
@@ -136,7 +136,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: 1),
                       TextField(
-                        controller: passworedTextEdtingController,
+                        // controller: passworedTextEdtingController,
                         obscureText: true,
                         decoration: InputDecoration(
                           alignLabelWithHint: true,
@@ -155,7 +155,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: 1),
                       TextField(
-                        controller: repassworedTextEdtingController,
+                        // controller: repassworedTextEdtingController,
                         obscureText: true,
                         decoration: InputDecoration(
                           alignLabelWithHint: true,

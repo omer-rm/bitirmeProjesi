@@ -1,4 +1,4 @@
-import 'package:driverapp/allwidgets/CustomColors.dart';
+// import 'package:driverapp/allwidgets/CustomColors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -10,6 +10,7 @@ import './allScreen/mainScreen.dart';
 import './allScreen/signupScreen.dart';
 import './configMaps.dart';
 import './dataHandler/appData.dart';
+import 'allwidgets/CustomColors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

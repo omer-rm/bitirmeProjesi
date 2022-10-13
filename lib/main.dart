@@ -1,6 +1,6 @@
 import './DataHandler/appData.dart';
 import './Screens/homescreen.dart';
-import './Screens/about.dart';
+import 'Screens/about.dart';
 import './Screens/loginScreen.dart';
 import './Screens/myHistory.dart';
 import './Screens/profileScreen.dart';

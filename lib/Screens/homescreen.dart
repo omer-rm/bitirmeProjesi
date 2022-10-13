@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:async';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
@@ -6,6 +8,7 @@ import 'package:sonbitirmeprojesi/AllWidgets/CollectFareDialog.dart';
 import 'package:sonbitirmeprojesi/AllWidgets/noDriverAvailableDialog.dart';
 import 'package:sonbitirmeprojesi/Assistants/geofireAssestent.dart';
 import 'package:sonbitirmeprojesi/Models/nearByAvailbleDrivers.dart';
+import 'package:sonbitirmeprojesi/Screens/about.dart';
 import 'package:sonbitirmeprojesi/Screens/ratingScreen.dart';
 import 'package:sonbitirmeprojesi/main.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -63,6 +66,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   GoogleMapController newGooglemapController;
   bool isTheAnyImge = false;
   double bottumpaddingofMap = 0;
+  bool isrequestintpositionDetails = false;
+
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(41.015137, 28.979530), // istanbul
     zoom: 14.4746,
@@ -263,9 +268,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       )),
                 ),
               ),
-              InkWell(
+              GestureDetector(
                 onTap: () {
-                  // Navigator.pushNamed(context, AboutScreen.screenId);
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, AboutScereen.screenid, (Route) => false);
                 },
                 child: ListTile(
                   leading: Icon(
@@ -361,7 +367,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
           ),
-
           // Search Container  ui
           Positioned(
             right: 0.0,
@@ -515,15 +520,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       SizedBox(height: 35),
                       GestureDetector(
                         onTap: () {
-                          // displayToastMsg("يتم البحث عن ديليفري جديد", context);
-                          // setState(() {
-                          //   state = "requisting";
-                          //   carRideType = "bike";
-                          // });
+                          displayToastMsg("يتم البحث عن ديليفري جديد", context);
+                          setState(() {
+                            state = "requisting";
+                            carRideType = "bike";
+                          });
                           displayRequistHeightContainer();
                           availableDrievrs =
                               GeoFireAssistent.nearbyAvailableDraiversList;
-                          // searchNearistDriver();
+                          searchNearistDriver();
                         },
                         child: Container(
                           width: double.infinity,
@@ -760,7 +765,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // cancleRequist();
+                        cancleRequist();
                         resetApp();
                       },
                       child: Container(
@@ -1105,8 +1110,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       return;
     }
     var driver = availableDrievrs[0];
-    // notifyDriver(driver);
-    // availableDrievrs.removeAt(0);
+    notifyDriver(driver);
+    availableDrievrs.removeAt(0);
     driversRef
         .child(driver.key)
         .child("car_details")
@@ -1123,7 +1128,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         }
       } else {
         displayToastMsg(
-            "there is no  availble driver nearby now please try again later ",
+            "there is no availble driver nearby now please try again later ",
             context);
       }
     });
@@ -1189,7 +1194,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         LatLng driverCurrentLocation = LatLng(driverLat, driverLng);
 
         if (statusRide == "accepted") {
-          // updaterideTimePickUpLoc(driverCurrentLocation);
+          updaterideTimePickUpLoc(driverCurrentLocation);
         } else if (statusRide == "onride") {
           // updaterideTimedropOffLoc(driverCurrentLocation);
         } else if (statusRide == "arrived") {
@@ -1236,6 +1241,41 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         }
       }
     });
+  }
+
+  void updaterideTimedropOffLoc(LatLng driverCurrentLocation) async {
+    if (isrequestintpositionDetails == false) {
+      isrequestintpositionDetails = true;
+      var dropOff =
+          Provider.of<AppData>(context, listen: false).dropOffLocation;
+      var dropOffUserLatLng = LatLng(dropOff.latitude, dropOff.longitude);
+      var detailss = await AssistantMethods.obtainDirectionDetails(
+          driverCurrentLocation, dropOffUserLatLng);
+      if (detailss == null) {
+        return;
+      }
+      setState(() {
+        rideStatus = "Going to Destination -" + detailss.distanceText;
+      });
+      isrequestintpositionDetails = false;
+    }
+  }
+
+  void updaterideTimePickUpLoc(LatLng driverCurrentLocation) async {
+    if (isrequestintpositionDetails == false) {
+      isrequestintpositionDetails = true;
+      var positionUserLatLng =
+          LatLng(currentPosition.latitude, currentPosition.longitude);
+      var detailss = await AssistantMethods.obtainDirectionDetails(
+          driverCurrentLocation, positionUserLatLng);
+      if (detailss == null) {
+        return;
+      }
+      setState(() {
+        rideStatus = "on the way -" + detailss.distanceText;
+      });
+      isrequestintpositionDetails = false;
+    }
   }
 
   void notifyDriver(NearByAvailableDraivers driver) {

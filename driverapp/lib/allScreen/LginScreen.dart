@@ -27,14 +27,14 @@ class LoginScreen extends StatelessWidget {
                 height: 120.0,
               ),
               Image(
-                image: AssetImage('images/logos/quicklyIcon.png'),
+                image: AssetImage('images/logo1.png'),
                 height: 150.0,
                 width: 150.0,
                 alignment: Alignment.center,
               ),
               SizedBox(height: 1.0),
               Text(
-                'Driver price',
+                'Driver ',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18.0,
